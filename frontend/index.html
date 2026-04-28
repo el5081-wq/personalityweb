@@ -1,0 +1,49 @@
+<!-- this is a simple demo page to test that the backend contact form is working -->
+<!-- it lets you submit a message and see all the messages saved in mongodb -->
+<!-- this is not the real website, just a way to visually see the backend in action -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Personality Website</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, textarea { display: block; width: 300px; margin-bottom: 10px; }
+    #status { display: none; }
+    #status.success { color: green; display: block; }
+    #status.error { color: red; display: block; }
+    .submission-item { border-bottom: 1px solid #ccc; margin-bottom: 10px; padding-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Personality Website</h1>
+  <p class="subtitle">Backend demo — contact form connected to MongoDB</p>
+
+  <div class="card">
+    <h2>Send a Message</h2>
+    <form id="contactForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Your name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="your@email.com" required />
+
+      <label for="message">Message</label>
+      <textarea id="message" placeholder="Write something..." required></textarea>
+
+      <button type="submit" id="submitBtn">Send Message</button>
+    </form>
+    <div id="status"></div>
+  </div>
+
+  <div class="submissions">
+    <h2>Submitted Messages</h2>
+    <button id="refreshBtn" onclick="loadSubmissions()">Refresh</button>
+    <div id="submissionsList"><p id="noMessages">No messages yet.</p></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
