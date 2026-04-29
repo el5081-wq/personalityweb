@@ -50,32 +50,4 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   btn.textContent = 'Send Message';
 });
 
-// Load all submissions
-async function loadSubmissions() {
-  const list = document.getElementById('submissionsList');
 
-  try {
-    const res = await fetch(`${API}/contact`);
-    const data = await res.json();
-
-    if (!data.length) {
-      list.innerHTML = '<p id="noMessages">No messages yet.</p>';
-      return;
-    }
-
-    list.innerHTML = data.map((item) => `
-      <div class="submission-item">
-        <div class="name">${escapeHtml(item.name)}</div>
-        <div class="email">${escapeHtml(item.email)}</div>
-        <div class="msg">${escapeHtml(item.message)}</div>
-        <div class="date">${new Date(item.createdAt).toLocaleString()}</div>
-      </div>
-    `).join('');
-  } catch (err) {
-    list.innerHTML = '<p style="color:#c62828">Could not load submissions.</p>';
-  }
-}
-
-
-
-loadSubmissions();
