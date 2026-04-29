@@ -3,8 +3,8 @@
 // this is just for testing the backend, it is not part of the final website design
 
 const API = '/api';
+//ONLY TESTING
 
-//testing for backend functionality, not part of the final product
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -16,7 +16,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   const message = document.getElementById('message').value.trim();
 
   btn.disabled = true;
-  btn.textContent = 'Send';
+  btn.textContent = 'Sending';
   status.className = '';
   status.style.display = 'none';
 
@@ -76,15 +76,6 @@ async function loadSubmissions() {
   }
 }
 
-// Prevent XSS when rendering user-submitted data
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
 
-// Load on page open
+
 loadSubmissions();
