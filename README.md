@@ -1,12 +1,1 @@
-# What I've done so far
-
-Right now the backend handles contact form submissions. When someone fills out the contact form on the frontend it sends the data here and saves it to the database.
-
-## Coding languages used
-Node.js
-Express
-MongoDB (hosted on MongoDB Atlas)
-Mongoose
-express-validator for input validation
-dotenv for environment variables
-
+A full-stack personality quiz application deployed on AWS with a complete DevOps pipeline. Users log in, answer 10 questions, and get assigned one of 8 personality archetypes. Built end-to-end — from the frontend UI to cloud infrastructure.
