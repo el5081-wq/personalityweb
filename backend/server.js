@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const contactRoutes = require('./src/routes/contact');
+const quizRoutes    = require('./src/routes/quiz');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Routes
 app.use('/api/contact', contactRoutes);
+app.use('/api/quiz',    quizRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {
