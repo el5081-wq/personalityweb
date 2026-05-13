@@ -31,6 +31,14 @@ resource "aws_security_group" "app_sg" {
 
   ingress {
     description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "App port"
     from_port   = 5000
     to_port     = 5000
     protocol    = "tcp"
@@ -57,8 +65,8 @@ resource "aws_security_group" "app_sg" {
 
 # ── EC2 Instance (Free Tier) ─────────────────────────────────────────────────
 resource "aws_instance" "app" {
-  ami                    = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 us-east-1
-  instance_type          = "t2.micro"              # Free tier eligible
+  ami                    = "ami-0c7217cdde317cfec" # Ubuntu 22.04 LTS us-east-1
+  instance_type          = "t3.micro"              # Free tier eligible
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   key_name               = var.app_name
 
