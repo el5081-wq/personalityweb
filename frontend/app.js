@@ -10,6 +10,14 @@ let lastResult     = null;
 const app = document.getElementById('app');
 
 app.innerHTML = `
+  <nav id="nav-public">
+    <span class="nav-brand">Personality Quiz</span>
+    <div class="nav-public-actions">
+      <button class="btn-outline" id="btnNavLogin">Log in</button>
+      <button class="btn-pill" id="btnNavSignup">Sign up</button>
+    </div>
+  </nav>
+
   <nav id="navbar">
     <span class="nav-brand">Personality Quiz</span>
     <div class="nav-user">
@@ -18,9 +26,23 @@ app.innerHTML = `
     </div>
   </nav>
 
-  <section class="screen active" id="screen-login">
+  <section class="screen active" id="screen-hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Free &bull; 10 Questions &bull; Instant Results</div>
+      <h1 class="hero-title">Discover What<br>Drives You</h1>
+      <p class="hero-sub">Answer 10 questions and get matched to one of 8 personality archetypes. Find out how you think, lead, create, and connect.</p>
+      <button class="btn-start" id="btnHeroCta">Take the Quiz</button>
+      <div class="hero-features">
+        <div class="hero-feat"><span class="feat-icon">&#9632;</span><span>8 personality types</span></div>
+        <div class="hero-feat"><span class="feat-icon">&#9632;</span><span>Takes under 3 minutes</span></div>
+        <div class="hero-feat"><span class="feat-icon">&#9632;</span><span>No account required to start</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-login">
     <div class="card">
-      <h1 class="login-title">Personality Quiz</h1>
+      <h1 class="login-title" id="loginTitle">Create an account</h1>
       <p class="subtitle">Enter your name and email to get started.</p>
       <form id="loginForm" novalidate>
         <div class="form-group">
@@ -39,7 +61,7 @@ app.innerHTML = `
     </div>
   </section>
 
-  <section class="screen" id="screen-landing">
+  <section class="screen" id="screen-welcome">
     <div class="landing-icon">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-linecap="round"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg>
     </div>
@@ -117,23 +139,29 @@ function showScreen(id) {
   target.classList.add('active');
   target.style.animation = 'none';
   requestAnimationFrame(() => { target.style.animation = ''; });
-  if (id === 'screen-login' || id === 'screen-landing') {
-    document.body.style.paddingTop = currentUser ? '64px' : '0';
+
+  const pubNav  = document.getElementById('nav-public');
+  const authNav = document.getElementById('navbar');
+
+  if (id === 'screen-hero') {
+    pubNav.classList.add('visible');
+    authNav.classList.remove('visible');
+    document.body.style.paddingTop = '64px';
+  } else if (id === 'screen-login') {
+    pubNav.classList.remove('visible');
+    authNav.classList.remove('visible');
+    document.body.style.paddingTop = '0';
   } else {
+    pubNav.classList.remove('visible');
+    authNav.classList.add('visible');
     document.body.style.paddingTop = '64px';
   }
   window.scrollTo(0, 0);
 }
 
 function setNav(user) {
-  const nav = document.getElementById('navbar');
   if (user) {
-    nav.classList.add('visible');
     document.getElementById('navName').textContent = user.name;
-    document.body.style.paddingTop = '64px';
-  } else {
-    nav.classList.remove('visible');
-    document.body.style.paddingTop = '0';
   }
 }
 
@@ -176,7 +204,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
     currentUser = data;
     setNav(currentUser);
-    showScreen('screen-landing');
+    showScreen('screen-welcome');
   } catch {
     status.textContent = 'Could not reach the server.';
     status.className   = 'form-status error';
@@ -197,10 +225,25 @@ document.getElementById('btnLogout').addEventListener('click', () => {
   setNav(null);
   document.getElementById('loginForm').reset();
   document.getElementById('loginStatus').textContent = '';
-  showScreen('screen-login');
+  showScreen('screen-hero');
 });
 
 document.getElementById('btnStart').addEventListener('click', startQuiz);
+
+document.getElementById('btnHeroCta').addEventListener('click', () => {
+  document.getElementById('loginTitle').textContent = 'Take the Quiz';
+  showScreen('screen-login');
+});
+
+document.getElementById('btnNavLogin').addEventListener('click', () => {
+  document.getElementById('loginTitle').textContent = 'Log in';
+  showScreen('screen-login');
+});
+
+document.getElementById('btnNavSignup').addEventListener('click', () => {
+  document.getElementById('loginTitle').textContent = 'Create an account';
+  showScreen('screen-login');
+});
 
 async function startQuiz() {
   try {
@@ -325,7 +368,7 @@ document.getElementById('btnRetake').addEventListener('click', () => {
   const navTag = document.getElementById('navTag');
   navTag.textContent = '';
   navTag.classList.remove('visible');
-  showScreen('screen-landing');
+  showScreen('screen-welcome');
 });
 
 document.getElementById('btnContact').addEventListener('click', () => {
