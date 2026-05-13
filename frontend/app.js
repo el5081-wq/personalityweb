@@ -8,9 +8,10 @@ let selectedOption = null;
 let lastResult     = null;
 
 const app = document.getElementById('app');
+document.body.style.paddingTop = '64px';
 
 app.innerHTML = `
-  <nav id="nav-public">
+  <nav id="nav-public" class="visible">
     <span class="nav-brand">Personality Quiz</span>
     <div class="nav-public-actions">
       <button class="btn-outline" id="btnNavLogin">Log in</button>
