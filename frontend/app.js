@@ -13,7 +13,7 @@ app.innerHTML = `
   <nav id="navbar">
     <span class="nav-brand">Personality Quiz</span>
     <div class="nav-user">
-      <span>Logged in as <span class="nav-name" id="navName"></span></span>
+      <span>Logged in as <span class="nav-name" id="navName"></span> <span class="nav-tag" id="navTag"></span></span>
       <button class="btn-logout" id="btnLogout">Log out</button>
     </div>
   </nav>
@@ -191,6 +191,9 @@ document.getElementById('btnLogout').addEventListener('click', () => {
   questions   = [];
   answers     = [];
   lastResult  = null;
+  const navTag = document.getElementById('navTag');
+  navTag.textContent = '';
+  navTag.classList.remove('visible');
   setNav(null);
   document.getElementById('loginForm').reset();
   document.getElementById('loginStatus').textContent = '';
@@ -306,6 +309,11 @@ function showResult(data) {
   document.getElementById('resultTag').style.color  = data.color;
   document.getElementById('resultDesc').style.color = 'var(--muted)';
 
+  const navTag = document.getElementById('navTag');
+  navTag.textContent = data.tag;
+  navTag.style.color = data.color;
+  navTag.classList.add('visible');
+
   showScreen('screen-result');
 }
 
@@ -314,6 +322,9 @@ document.getElementById('btnRetake').addEventListener('click', () => {
   currentIndex   = 0;
   selectedOption = null;
   lastResult     = null;
+  const navTag = document.getElementById('navTag');
+  navTag.textContent = '';
+  navTag.classList.remove('visible');
   showScreen('screen-landing');
 });
 

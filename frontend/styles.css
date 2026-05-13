@@ -48,6 +48,16 @@ body {
 .nav-brand { font-weight: 800; font-size: 1rem; letter-spacing: .04em; }
 .nav-user { display: flex; align-items: center; gap: 16px; font-size: .9rem; color: var(--muted); }
 .nav-name { color: var(--text); font-weight: 600; }
+.nav-tag {
+  display: none;
+  padding: 3px 11px;
+  border-radius: 99px;
+  font-size: .75rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  letter-spacing: .03em;
+}
+.nav-tag.visible { display: inline-block; }
 .btn-logout {
   background: none;
   border: 1px solid var(--border);
@@ -302,6 +312,7 @@ body {
   position: absolute;
   inset: 0;
   opacity: .07;
+  pointer-events: none;
   background: radial-gradient(circle at 50% 0%, currentColor 0%, transparent 65%);
 }
 .result-label {
@@ -323,7 +334,7 @@ body {
   border: 1px solid currentColor;
   opacity: .75;
 }
-.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
 
 /* CONTACT */
 #screen-contact { max-width: 500px; }
