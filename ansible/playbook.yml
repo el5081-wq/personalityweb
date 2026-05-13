@@ -1,0 +1,49 @@
+# Ansible playbook for personalityweb
+# Connects to your server, installs Docker, and runs the app container
+# Run: ansible-playbook -i inventory.ini playbook.yml
+
+- name: Deploy personalityweb
+  hosts: app_servers
+  become: true
+
+  vars:
+    app_image: "{{ docker_username }}/personalityweb:latest"
+    container_name: personalityweb
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: true
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Pull latest Docker image
+      docker_image:
+        name: "{{ app_image }}"
+        source: pull
+        force_source: true
+
+    - name: Stop existing container (if running)
+      docker_container:
+        name: "{{ container_name }}"
+        state: absent
+      ignore_errors: true
+
+    - name: Run app container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ app_image }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "5000:5000"
+        env:
+          PORT: "5000"
+          MONGO_URI: "{{ mongo_uri }}"
+          CLIENT_ORIGIN: "{{ client_origin | default('http://localhost:3000') }}"
