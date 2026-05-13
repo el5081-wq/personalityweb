@@ -5,7 +5,6 @@ const QuizResult = require('../models/QuizResult');
 
 const router = express.Router();
 
-// GET /api/quiz/questions — return all questions (without score data exposed)
 router.get('/questions', (_req, res) => {
   const sanitized = questions.map(({ id, text, options }) => ({
     id,
@@ -15,7 +14,6 @@ router.get('/questions', (_req, res) => {
   res.json(sanitized);
 });
 
-// POST /api/quiz/submit — calculate personality type and save result
 router.post('/submit', async (req, res) => {
   const { answers } = req.body;
 
@@ -23,7 +21,6 @@ router.post('/submit', async (req, res) => {
     return res.status(422).json({ error: `Expected ${questions.length} answers.` });
   }
 
-  // Tally scores
   const scores = {};
   for (const { questionId, selectedOption } of answers) {
     const question = questions.find((q) => q.id === questionId);
@@ -37,7 +34,6 @@ router.post('/submit', async (req, res) => {
     }
   }
 
-  // Pick the highest scoring type
   const personalityType = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
   const personality = personalities[personalityType];
 
@@ -45,7 +41,6 @@ router.post('/submit', async (req, res) => {
     await QuizResult.create({ personalityType, scores, answers });
   } catch (err) {
     console.error('Failed to save quiz result:', err.message);
-    // Non-fatal — still return the result to the user
   }
 
   res.json({
@@ -55,7 +50,6 @@ router.post('/submit', async (req, res) => {
   });
 });
 
-// GET /api/quiz/stats — breakdown of all personality types assigned
 router.get('/stats', async (_req, res) => {
   try {
     const stats = await QuizResult.aggregate([

@@ -4,7 +4,6 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-// POST /api/users/login — find or create user by email
 router.post(
   '/login',
   [
